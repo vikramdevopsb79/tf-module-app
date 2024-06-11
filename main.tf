@@ -32,7 +32,7 @@ resource "aws_instance" "node" {
   vpc_security_group_ids = [data.aws_security_group.allow-all.id]
 
   tags = {
-    name = "${var.name}-${var.env}"
+    Name = "${var.name}-${var.env}"
   }
 
 }
@@ -46,6 +46,7 @@ resource "aws_route53_record" "record" {
 
 resource "null_resource" "provisioner"{
   depends_on = [aws_route53_record.record]
+
   connection {
     host        = aws_instance.node.private_ip
     user        = "ec2-user"
@@ -57,6 +58,6 @@ resource "null_resource" "provisioner"{
       "ansible-pull -i localhost, -U https://github.com/vikramdevopsb79/expense-ansible -e role_name=${var.name} -e env=${var.env} expense.yml"
     ]
   }
-
 }
+
 
