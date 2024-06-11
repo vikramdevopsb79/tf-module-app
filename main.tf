@@ -43,10 +43,19 @@ resource "aws_route53_record" "record" {
   ttl     = 30
   records = [aws_instance.node.private_ip]
 }
+connection {
+  host        = aws_instance.node.private_ip
+  user        = "ec2-user"
+  password    = "DevOps321"
+  type        = "ssh"
+}
 resource "null_resource" "provisioner"{
   depends_on = [aws_route53_record.record]
-  provisioner "local-exec" {
-    command = "sleep 120; cd /home/ec2-user/expense-ansible ; ansible-playbook -i ${aws_instance.node.private_ip}, -e ansible_user=ec2-user -e ansible_password=DevOps321 -e role_name=${var.name}-${var.env} -e env=dev expense.yml"
+  provisioner "remote-exec" {
+    inline = [
+      "ansible-pull -i localhost, -U https://github.com/vikramdevopsb79/expense-ansible -e role_name=${var.name} -e env=${var.env} expense.yml"
+    ]
   }
 
 }
+
