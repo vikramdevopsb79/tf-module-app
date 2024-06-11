@@ -3,15 +3,16 @@
 resource "aws_security_group" "allow_tls" {
   name        = "${var.name}-${var.env}"
   description =  "Description - ${var.name}-${var.env}"
-  egress {
+
+  ingress {
     from_port        = 22
-    to_port          = 0
+    to_port          = 22
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
   #Application port
-  egress {
+  ingress {
     from_port        = var.port_no
     to_port          = var.port_no
     protocol         = "tcp"
