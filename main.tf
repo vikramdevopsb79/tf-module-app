@@ -50,13 +50,13 @@ resource "null_resource" "provisioner"{
   connection {
     host        = aws_instance.node.private_ip
     user        = "ec2-user"
-    password    = "DevOps321"
+    password    = var.SSH_PASSWORD
     type        = "ssh"
   }
   provisioner "remote-exec" {
     inline = [
       "sudo pip3.11 install hvac",
-      "ansible-pull -i localhost, -U https://github.com/vikramdevopsb79/expense-ansible -e role_name=${var.name} -e env=${var.env} -e  expense.yml"
+      "ansible-pull -i localhost, -U https://github.com/vikramdevopsb79/expense-ansible -e role_name=${var.name} -e env=${var.env} -e vault_token=${var.vault_token}  expense.yml"
     ]
   }
 }
