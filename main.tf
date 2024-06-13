@@ -63,7 +63,7 @@ resource "aws_instance" "node" {
 
 }
 resource "aws_route53_record" "record" {
-  zone_id = data.aws_route53_zone.main.zone_id
+ zone_id  = var.zone_id
   name    = "${var.name}-${var.env}.vikramdevops.tech"
   type    = "A"
   ttl     = 30
@@ -72,7 +72,10 @@ resource "aws_route53_record" "record" {
 
 resource "null_resource" "provisioner"{
   depends_on = [aws_route53_record.record]
-
+  #null resource don't know new server is created for we trigger null resource for every new instance
+  triggers = {
+    instance_id = aws_instance.node.id
+  }
   connection {
     host        = aws_instance.node.private_ip
     user        = "ec2-user"
