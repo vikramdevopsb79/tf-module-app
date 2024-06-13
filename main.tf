@@ -8,11 +8,30 @@ resource "aws_security_group" "allow_tls" {
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
+    description = "SSH Port"
   }
   #Application port
   ingress {
     from_port        = var.port_no
     to_port          = var.port_no
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+    description = "App Port"
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = var.prometheus_servers
+    ipv6_cidr_blocks = ["::/0"]
+    description = "Prometheus Port"
+  }
+  #prometheus port
+  ingress {
+    from_port        = 9100
+    to_port          = 9100
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
