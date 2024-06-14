@@ -40,8 +40,6 @@ resource "aws_instance" "node" {
   ami           = data.aws_ami.ami.id
   instance_type = var.instance_type
   vpc_security_group_ids = [aws_security_group.allow_tls.id]
-  #attaching policy  i am role to ec2 
-  iam_instance_profile   = aws_iam_instance_profile.main.name
 
   tags = {
     Name = "${var.name}-${var.env}"
