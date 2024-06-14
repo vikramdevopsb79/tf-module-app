@@ -20,14 +20,6 @@ resource "aws_security_group" "allow_tls" {
     description = "App Port"
   }
 
-  egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-
-  }
   #prometheus port
   ingress {
     from_port        = 9100
@@ -44,6 +36,7 @@ resource "aws_security_group" "allow_tls" {
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
+
   }
 }
 resource "aws_instance" "node" {
@@ -53,7 +46,11 @@ resource "aws_instance" "node" {
 
   tags = {
     Name = "${var.name}-${var.env}"
+    Monitor = "yes"
+    env       = var.env
+    component = var.name
   }
+
   # this to not re-create machines on tf-apply again and again. This will not be needed later when we go with ASG
   lifecycle {
     ignore_changes = [
