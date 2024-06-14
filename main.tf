@@ -46,7 +46,6 @@ resource "aws_instance" "node" {
     Monitor = "yes"
     env       = var.env
     component = var.name
-    Monitor = "yes"
   }
 
   # this to not re-create machines on tf-apply again and again. This will not be needed later when we go with ASG
