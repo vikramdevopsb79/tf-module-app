@@ -63,7 +63,16 @@ resource "aws_route53_record" "record" {
   ttl     = 30
   records = [aws_instance.node.private_ip]
 }
-
+#this resource is useful to open  nginx exporter port only for frontend
+resource "aws_security_group_rule" "nginx-exporter-port" {
+  count             = var.name == "Frontend" ? 1 : 0
+  from_port         = 9113
+  protocol          = "tcp"
+  security_group_id = aws_security_group.allow_tls.id
+  to_port           = 9113
+  type              = "ingress"
+  cidr_blocks       = var.prometheus_servers
+}
 resource "null_resource" "provisioner"{
   depends_on = [aws_route53_record.record]
   #null resource don't know new server is created for we trigger null resource for every new instance
