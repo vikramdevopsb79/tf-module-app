@@ -78,7 +78,7 @@ resource "aws_security_group_rule" "grok-exporter-port" {
   from_port         = 9144
   protocol          = "tcp"
   security_group_id = aws_security_group.allow_tls.id
-  to_port           = 9113
+  to_port           = 9144
   type              = "ingress"
   cidr_blocks       = var.prometheus_servers
 }
