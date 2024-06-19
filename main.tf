@@ -18,7 +18,7 @@ resource "aws_security_group" "allow_tls" {
     description = "App Port"
   }
 
-  #prometheus port
+  # only for prometheus node exporter ports will be open
   ingress {
     from_port        = 9100
     to_port          = 9100
