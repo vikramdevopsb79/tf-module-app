@@ -102,5 +102,5 @@ resource "null_resource" "provisioner"{
     ]
   }
 }
-
+# running remote-exec need to install ansible in remote nodes with connection and using inline command
 
