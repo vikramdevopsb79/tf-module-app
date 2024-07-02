@@ -37,7 +37,7 @@ resource "aws_security_group" "allow_tls" {
   }
 }
 resource "aws_instance" "node" {
-  ami           = data.aws_ami.ami.id
+    ami           = var.ami
   instance_type = var.instance_type
   vpc_security_group_ids = [aws_security_group.allow_tls.id]
 
@@ -102,5 +102,6 @@ resource "null_resource" "provisioner"{
     ]
   }
 }
+# we are running pipeline from go user so that user don't have access ec2-user for that we used pull approach
 # running remote-exec need to install ansible in remote nodes with connection and using inline command
 
