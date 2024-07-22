@@ -1,5 +1,5 @@
 # data "aws_route53_zone" "main" {
-#   name         = "vikramdevops.tech"
+#   name         = "vikramdevops.store"
 #   private_zone = false
 # }
 # data "aws_ami" "ami" {
